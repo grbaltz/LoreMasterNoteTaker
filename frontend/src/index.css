@@ -1,0 +1,38 @@
+body {
+  margin: 0;
+  font-family: "Manrope";
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  background-color: #333333;
+}
+
+code {
+  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
+    monospace;
+}
+
+.palette1 {
+  color: #121212;
+  color: #33281e;
+  color: #E4CEC3;
+  color: #607D80;
+  color: #B3BFAE;
+  color: #776355;
+}
+.palette2 {
+  color: #121212;
+  color: #0c0414;
+  color: #412485;
+  color: #0f0d54;
+  color: #a4bebb;
+  color: #377d86;
+}
+.palette-greys {
+  color: #15191d;
+  color: #212529;
+  color: #313b4b;
+  color: #333333; 
+  color: #6f6f6f;
+  color: #262626;
+  color: #ffffff;
+}

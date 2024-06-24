@@ -1,0 +1,50 @@
+.sidebar-container {
+    display: flex;
+    flex: 0 1 20%;
+    flex-direction: column;
+    background-color: #212529;
+    color: white;
+    max-width: 20%;
+    height: 100vh;
+    font-family: Manrope;
+    align-items: flex-start;   
+}
+.logo {
+    width: 100%;
+    height: 100px;
+    display: flex;
+    font-size: 3em;
+    border: 1 solid #6f6f6f;
+    background-color: none;
+}
+.logo .text {
+    text-decoration: none;
+    display: flex;
+    flex: 1;
+    justify-content: center;
+    align-items: center;
+    color: orange;
+    font-family: Anton;
+    font-weight: bold;
+}
+.create-page-button {
+    text-decoration: none; /* Removes underline from links */
+    color: white; /* Dark text color */
+    width: 100%;
+    font-family: Manrope;
+    font-size: 16px;
+    background-color: transparent;
+    border: 0;
+    outline: none;
+    cursor: pointer;
+    justify-content: left;
+    text-align: left;
+    padding: 3px;
+}
+.page-link {
+    text-decoration: none; /* Removes underline from links */
+    color: white; /* Dark text color */
+    width: 100%;
+    font-family: Manrope;
+    padding: 3px;
+}

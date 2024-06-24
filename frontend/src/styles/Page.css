@@ -1,0 +1,9 @@
+.container {
+    display: flex;
+    flex-direction: row;
+    color: white;
+    font-family: Manrope;
+    background-color: #333333;
+    flex: 1;
+    justify-content: center;
+}
