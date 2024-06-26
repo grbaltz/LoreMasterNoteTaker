@@ -5,6 +5,7 @@ const {
     getNew,
     createPage,
     deletePage,
+    deleteAllPages,
     updatePage,
 } = require('../controllers/pageController');
 const router = express.Router();
@@ -20,6 +21,9 @@ router.post('/', createPage);
 
 // DELETE a page
 router.delete('/:id', deletePage);
+
+// DELETE all pages
+router.delete('/', deleteAllPages)
 
 // PATCH a page
 router.patch('/:id', updatePage);

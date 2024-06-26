@@ -18,21 +18,21 @@ import { NavLink, Outlet, useParams } from 'react-router-dom';
 */
 
 const LeftSidebar = () => {
-    const {pages} = usePagesContext();
+  const { pages } = usePagesContext();
 
-    return (
-        <div className="sidebar-container">
+  return (
+      <div className="sidebar-container">
           <div className="logo">
-            <NavLink to={'page/home'} className="text">LMNT</NavLink>
+              <NavLink to={'/page/home'} className="text">LMNT</NavLink>
           </div>
           <NavLink className="create-page-button" to={'/page/new'}>Create Page</NavLink>
           {pages && pages.map((page) => (
-            <NavLink className="page-link" key={page._id} to={'/page/' + page._id}>
-              {page.title}
-            </NavLink>
+              <NavLink className="page-link" key={page._id} to={'/page/' + page._id}>
+                  {page.title}
+              </NavLink>
           ))}
-        </div>
-      );
-    };
+      </div>
+  );
+};
 
 export default LeftSidebar;

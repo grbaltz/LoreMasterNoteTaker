@@ -30,11 +30,14 @@ const getPages = async (req, res) => {
 
 // Create a new page
 const createPage = async (req, res) => {
-    const { title, tags } = req.body;
+    const { title, tags, parent } = req.body;
 
     // Validate required fields
     if (!title) {
         return res.status(400).json({ error: "Title is required" });
+    } else if (!parent) {
+        // console.log('no parent for page: ' + title)
+        // return res.status(400).json({ error: "Parent is required" });
     }
 
     try {
@@ -64,6 +67,16 @@ const deletePage = async (req, res) => {
     res.status(200).json({ message: "Page deleted successfully" });
 }
 
+// Delete all pages
+const deleteAllPages = async (req, res) => {
+    try {
+        const result = await Page.deleteMany({});
+        res.status(200).json({ message: "All pages deleted successfully", deletedCount: result.deletedCount })
+    } catch (error) {
+        res.status(400).json({ error: "Failed to delete all pages" })
+    }
+}
+
 // Update a page by ID
 const updatePage = async (req, res) => {
     const { id } = req.params;
@@ -90,5 +103,6 @@ module.exports = {
     getPages,
     createPage,
     deletePage,
+    deleteAllPages,
     updatePage,
 };

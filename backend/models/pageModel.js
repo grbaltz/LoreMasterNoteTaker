@@ -9,6 +9,10 @@ const pageSchema = new Schema({
         type: Array,
         required: false,
     },
+    parent: {
+        type: String,
+        required: false,
+    },
 }, { timestamps: true });
 
 module.exports = mongoose.model('Page', pageSchema);

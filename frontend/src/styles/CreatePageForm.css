@@ -21,7 +21,7 @@
     font-family: Manrope;
 }
 .page-title-input:focus::placeholder {
-    color: transparent;  
+    /* color: transparent;   */
 }
 .tags-container {
     background-color: transparent;

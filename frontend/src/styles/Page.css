@@ -7,3 +7,11 @@
     flex: 1;
     justify-content: center;
 }
+.delete-page-button {
+    position: absolute;
+    bottom: 5px;
+    background-color: transparent;
+    border-width: 1px;
+    border-color: red;
+    color: red;
+}

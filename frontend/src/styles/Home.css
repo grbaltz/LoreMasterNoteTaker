@@ -17,3 +17,10 @@
     justify-content: center;
     align-items: center;
 }
+.home-container .delete-all-pages-button {
+    background-color: transparent;
+    color: red;
+    border-color: red;
+    position: absolute;
+    bottom: 5px;
+}

@@ -1,18 +1,26 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { usePagesContext } from '../hooks/usePagesContext';
+import { useNavigate } from 'react-router-dom';
 import '../styles/CreatePageForm.css';
 
 const CreatePageForm = () => {
-    const { dispatch } = usePagesContext()
+    const {  dispatch } = usePagesContext()
     const [title, setTitle] = useState('')
     const [tags, setTags] = useState([])
     const [error, setError] = useState(null)
+    const [parent, setParent] = useState('')
+    const titleRef = useRef(null)
+    const navigate = useNavigate()
+
+    // useEffect(() => {
+    //     setParent(pages.
+    // });
 
     const handleSubmit = async (e) => {
         console.log('Submit requested') // Debugging log
         e.preventDefault()
 
-        const page = { title, tags }
+        const page = { title, tags, parent }
 
         try {
             const response = await fetch('/pages', {
@@ -33,9 +41,14 @@ const CreatePageForm = () => {
                 // Reset form
                 setTitle('')
                 setTags([])
+                
+                // refocus title
+                titleRef.current.focus();
 
                 console.log('Added page')
                 dispatch({ type: 'CREATE_PAGE', payload: json })
+
+                navigate('/page/' + json._id)
             }
         } catch (err) {
             console.error('Submission failed', err)
@@ -43,17 +56,17 @@ const CreatePageForm = () => {
         }
     }
 
-    const preventEnterSubmit = (e) => {
-        if (e.key === 'Enter') e.preventDefault()
-    }
-
     const handleKeyDown = (e) => {
         console.log('Trying to add tag, keydown:', e.key)
-        if (e.key !== 'Enter') return
-        const value = e.target.value
-        if (!value.trim()) return
-        setTags([...tags, value])
-        e.target.value = ''
+        if (e.key === 'Enter') {
+            const value = e.target.value
+            if (!value.trim()) {
+                handleSubmit(e);
+            } else {
+                setTags([...tags, value])
+                e.target.value = ''
+            }
+        }
     }
 
     const handleDelete = (index) => {
@@ -63,13 +76,15 @@ const CreatePageForm = () => {
 
     return (
         // Page info form
-        <form className="inputs-container" onKeyDown={preventEnterSubmit} onSubmit={handleSubmit}>
+        <form className="inputs-container" onKeyDown={(e) => e.key === 'Enter' && e.preventDefault()} onSubmit={handleSubmit}>
             <input 
                 className="page-title-input"
                 type="text"
                 onChange={(e) => setTitle(e.target.value)}
                 value={title}
                 placeholder="Type Page title here..."
+                autoFocus
+                ref={titleRef}
             />
 
             {/* TAG INPUT */}

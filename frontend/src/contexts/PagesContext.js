@@ -1,42 +1,63 @@
-import { createContext, useReducer } from "react";
+import React, { createContext, useReducer, useEffect } from "react";
+import axios from 'axios';
 
-export const PagesContext = createContext()
+// Create the PagesContext
+export const PagesContext = createContext();
 
+// Define the reducer to handle different actions
 export const pagesReducer = (state, action) => {
     switch (action.type) {
         case 'SET_PAGES':
-            // set all pages
             return {
+                ...state,
                 pages: action.payload
-            }
+            };
         case 'CREATE_PAGE':
-            // create page
             return {
+                ...state,
                 pages: [action.payload, ...state.pages]
-            }
+            };
         case 'DELETE_PAGE':
-            // delete page
             return {
+                ...state,
                 pages: state.pages.filter(page => page._id !== action.payload)
-            }
+            };
         case 'UPDATE_PAGE':
-            // update page
             return {
-                // nothing yet
-            }
+                ...state,
+                pages: state.pages.map(page =>
+                    page._id === action.payload._id ? action.payload : page
+                )
+            };
         default:
-            return state
+            console.warn(`Unhandled action type: ${action.type}`);
+            return state;
     }
-}
+};
 
+// PagesContextProvider component to provide context to its children
 export const PagesContextProvider = ({ children }) => {
     const [state, dispatch] = useReducer(pagesReducer, {
-        pages: null
-    })
+        pages: []
+    });
+
+    useEffect(() => {
+        // Fetch all pages from the server when the provider mounts
+        const fetchPages = async () => {
+            try {
+                const response = await axios.get('/pages/');
+                dispatch({ type: 'SET_PAGES', payload: response.data });
+            } catch (error) {
+                console.error('Failed to fetch pages', error);
+            }
+        };
+
+        fetchPages();
+    }, []); // Empty dependency array ensures this runs once on mount
 
     return (
-        <PagesContext.Provider value={{...state, dispatch}}>
-            { children }
+        <PagesContext.Provider value={{ ...state, dispatch }}>
+            {children}
         </PagesContext.Provider>
-    )
-}
+    );
+};
