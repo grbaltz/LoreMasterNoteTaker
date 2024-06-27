@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { usePagesContext } from '../hooks/usePagesContext'
 
-const DeletePageButton = ({ page }) => {
+const DeletePageButton = ({ page, className = '', ...props }) => {
     const [error, setError] = useState(null);
     const { dispatch } = usePagesContext()
 
@@ -31,8 +31,8 @@ const DeletePageButton = ({ page }) => {
     }
 
     return (
-        <div className="deleteButton">
-            <button onClick={handleSubmit}>Delete Page</button>
+        <div>
+            <button className={`delete-page-button ${className}`} onClick={handleSubmit}>Delete Page</button>
             {error && <div className="error">{error}</div>}
         </div>
     )

@@ -11,14 +11,6 @@ const NewPage = () => {
     return (
       <div className="main-content">
         <CreatePageForm />
-        {/* <div className="pages">
-          {pages && pages.map((page) => (
-            <div className="newPage" key={page._id}>
-              <PageDetails page={page} />
-              <DeletePageButton page={page} />
-            </div>
-          ))}
-        </div> */}
       </div>
     )
 }

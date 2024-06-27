@@ -7,7 +7,7 @@
     flex: 1;
     justify-content: center;
 }
-.delete-page-button {
+.container .delete-page-button {
     position: absolute;
     bottom: 5px;
     background-color: transparent;

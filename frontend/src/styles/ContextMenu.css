@@ -1,0 +1,43 @@
+.context-menu {
+    position: absolute;
+    background-color: #101316;
+    border: 1px solid #101316;
+    border-radius: 5px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    opacity: 0;
+    transform: scale(0.9);
+    transition: opacity 5s ease-out, transform 5s ease-out;
+    visibility: hidden;
+    z-index: 1000; /* Ensure it's on top */
+
+    width: 140px;
+    height: auto;
+
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    padding-top: 7px;
+    padding-bottom: 7px;
+    padding-left: 16px;
+    gap: .5em;
+}
+
+.context-menu.visible {
+    opacity: 1;
+    transform: scale(1);
+    visibility: visible;
+}
+.context-menu-button {
+    /* Also needs to be updated in DeletePageButton.css */
+    background-color: transparent;
+    color: white;
+    border: none;
+    cursor: pointer;
+
+    font-family: Manrope;
+    font-size: 12px;
+    align-self: flex-start;
+    padding: 0; 
+    margin: 0; 
+}
+

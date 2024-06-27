@@ -1,32 +1,36 @@
 .sidebar-container {
     display: flex;
-    flex: 0 1 20%;
     flex-direction: column;
     background-color: #212529;
     color: white;
-    max-width: 20%;
+    width: 13%;
+    max-width: 13%;
     height: 100vh;
     font-family: Manrope;
-    align-items: flex-start;   
+    align-items: flex-start;
+    padding: 20px; /* Add padding to the container */
+    box-sizing: border-box; /* Ensure padding is included in the width calculation */
+    gap: 5px; /* Add gap between items */
 }
+
 .logo {
     width: 100%;
     height: 100px;
     display: flex;
     font-size: 3em;
-    border: 1 solid #6f6f6f;
-    background-color: none;
-}
-.logo .text {
-    text-decoration: none;
-    display: flex;
-    flex: 1;
+    border: none;
     justify-content: center;
     align-items: center;
+    background-color: none;
+}
+
+.logo .text {
+    text-decoration: none;
     color: orange;
     font-family: Anton;
     font-weight: bold;
 }
+
 .create-page-button {
     text-decoration: none; /* Removes underline from links */
     color: white; /* Dark text color */
@@ -37,14 +41,38 @@
     border: 0;
     outline: none;
     cursor: pointer;
-    justify-content: left;
-    text-align: left;
-    padding: 3px;
+    text-align: left; /* Ensure text is aligned to the left */
+    /* padding: 3px; */
+    box-sizing: border-box; /* Ensure padding is included in the width calculation */
 }
+
 .page-link {
     text-decoration: none; /* Removes underline from links */
     color: white; /* Dark text color */
     width: 100%;
     font-family: Manrope;
-    padding: 3px;
+    text-align: left; /* Ensure text is aligned to the left */
+    /* padding: 3px; */
+    box-sizing: border-box; /* Ensure padding is included in the width calculation */
+}
+
+/* Add specific styles for the sidebar items */
+.sidebar-item {
+    width: 100%; /* Ensure items take the full width */
+    text-align: left;
+    /* padding: 10px 0; */
+    box-sizing: border-box; /* Ensure padding is included in the width calculation */
+}
+.sidebar-container .rename-input {
+    background-color: transparent;
+    color: white;
+    font-family: Manrope;
+    font-size: 16px;
+    border: none;
+    outline: none;
+    padding: 0px;
+    margin: 0px;
+    max-width: 100%;
+    width: 100%;
+    box-sizing: border-box;
 }

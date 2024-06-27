@@ -1,0 +1,12 @@
+.delete-page-button.context-menu {
+    background-color: transparent;
+    color: white;
+    border: none;
+    cursor: pointer;
+
+    font-family: Manrope;
+    font-size: 12px;
+    align-self: flex-start;
+    padding: 0; 
+    margin: 0; 
+}

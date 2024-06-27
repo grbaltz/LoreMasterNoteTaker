@@ -12,10 +12,6 @@ const CreatePageForm = () => {
     const titleRef = useRef(null)
     const navigate = useNavigate()
 
-    // useEffect(() => {
-    //     setParent(pages.
-    // });
-
     const handleSubmit = async (e) => {
         console.log('Submit requested') // Debugging log
         e.preventDefault()
