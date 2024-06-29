@@ -6,6 +6,7 @@ import { NavLink, useNavigate } from 'react-router-dom';
 // components
 import ContextMenu from './ContextMenu';
 import DeletePageButton from './DeletePageButton';
+import DropdownArrow from './DropdownArrow';
 
 // Sidebar to LMNT, displays list of pages, create page option, logo, etc
 // TODO: Make collapsible and adjustable
@@ -24,8 +25,8 @@ const LeftSidebar = () => {
   const inputRef = useRef(null); // Ref to access the input element
   const [newMode, setNewMode] = useState(null);
   const [newPageParentID, setNewPageParentID] = useState(null);
-  const [children, setChildren] = useState([]);
   const navigate = useNavigate();
+  const [expandedPages, setExpandedPages] = useState([]);
 
   useEffect(() => {
     const handleClick = () => setContextMenu({
@@ -55,10 +56,6 @@ const LeftSidebar = () => {
     });
   };
 
-  const resetNewMode = () => {
-    setNewMode(false);
-  }
-
   // Creates new page with current page as parent
   const handleCreatePageClick = async (page) => {
     // Route to CreatePage
@@ -67,6 +64,13 @@ const LeftSidebar = () => {
     setNewPageParentID(page._id);
     navigate('/page/new', { state: { parentId: page._id } });
   };
+
+  const toggleExpand = (pageId) => {
+    setExpandedPages((prevState) => ({
+      ...prevState,
+      [pageId]: !prevState[pageId],
+    }));
+  }
 
   // Changes to input, closes cm, and focuses input field when 'Rename Page' in context menu selected
   const handleRenameClick = (page) => {
@@ -121,7 +125,7 @@ const LeftSidebar = () => {
         
         {/* Lists the pages in db */}
         {pages && pages.map((page) => (
-          <div key={page._id} className="sidebar-item" onContextMenu={(e) => handleRightClick(e, page)}>
+          <div key={page._id} className="sidebar-item" onContextMenu={(e) => handleRightClick(page)}>
             {/* If renaming, display input, otherwise link to page */}
             {editMode === page._id ? (
               <input
@@ -135,16 +139,17 @@ const LeftSidebar = () => {
                 autoFocus
               />
             ) : (
-              <NavLink className="page-link" to={'/page/' + page._id}>
-                {page.title}
-              </NavLink>
+              // If page is a subpage
+              !page.parent &&
+                // If page is a top-page, check if has children and if so, show dropdown arrow
+                page.children &&
+                  <div className="page-dropdown">
+                    <DropdownArrow />
+                    <NavLink className="page-link" to={'/page/' + page._id}>
+                      {page.title}
+                    </NavLink>
+                  </div>
             )}
-            {/* If creating new file, link to new page */}
-            {/* {newMode && newPageParentID === page._id &&
-              <NavLink className="page-link" to={'/page/new'}>
-                New Page
-              </NavLink>
-            } */}
           </div>
         ))}
 
