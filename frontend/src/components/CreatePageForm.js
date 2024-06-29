@@ -1,22 +1,25 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { usePagesContext } from '../hooks/usePagesContext';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 import '../styles/CreatePageForm.css';
 
 const CreatePageForm = () => {
-    const {  dispatch } = usePagesContext()
-    const [title, setTitle] = useState('')
-    const [tags, setTags] = useState([])
-    const [error, setError] = useState(null)
-    const [parent, setParent] = useState('')
-    const titleRef = useRef(null)
-    const navigate = useNavigate()
+    const { dispatch } = usePagesContext();
+    const [title, setTitle] = useState('');
+    const [tags, setTags] = useState([]);
+    const [error, setError] = useState(null);
+    const titleRef = useRef(null);
+    const navigate = useNavigate();
+    const location = useLocation();
+    const parentId = location.state?.parentId || null;
+    const resetNewMode = location.state?.resetNewMode || null;
 
+    // Submits new page to db
     const handleSubmit = async (e) => {
-        console.log('Submit requested') // Debugging log
-        e.preventDefault()
+        console.log('Submit requested'); // Debugging log
+        e.preventDefault();
 
-        const page = { title, tags, parent }
+        const page = { title, tags, parent: parentId };
 
         try {
             const response = await fetch('/pages', {
@@ -25,50 +28,64 @@ const CreatePageForm = () => {
                 headers: {
                     'Content-Type': 'application/json'
                 }
-            })
-            const json = await response.json()
+            });
+            const json = await response.json();
 
             if (!response.ok) {
-                console.log('Found error in submitting form')
-                setError(json.error)
+                console.log('Found error in submitting form');
+                setError(json.error);
             } 
             if (response.ok) {
-                setError(null)
+                setError(null);
                 // Reset form
-                setTitle('')
-                setTags([])
+                setTitle('');
+                setTags([]);
                 
                 // refocus title
                 titleRef.current.focus();
 
-                console.log('Added page')
-                dispatch({ type: 'CREATE_PAGE', payload: json })
+                console.log('Added page');
+                dispatch({ type: 'CREATE_PAGE', payload: json });
 
-                navigate('/page/' + json._id)
+                // Update the parent's children array
+                if (parentId) {
+                    await fetch('/pages/' + parentId, {
+                        method: 'PATCH',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify({ children: [...(json.children || []), json._id] })
+                    });
+                }
+
+                navigate('/page/' + json._id);
+                resetNewMode();
             }
         } catch (err) {
-            console.error('Submission failed', err)
-            setError('Something went wrong!')
+            console.error('Submission failed', err);
+            setError('Something went wrong!');
         }
-    }
+    };
 
+    // If 'Enter', then submit, otherwise continue typing tag name
     const handleKeyDown = (e) => {
-        console.log('Trying to add tag, keydown:', e.key)
+        console.log('Trying to add tag, keydown:', e.key);
         if (e.key === 'Enter') {
-            const value = e.target.value
+            const value = e.target.value;
             if (!value.trim()) {
                 handleSubmit(e);
             } else {
-                setTags([...tags, value])
-                e.target.value = ''
+                setTags([...tags, value]);
+                e.target.value = '';
             }
         }
-    }
+    };
 
+    // Deletes target tag
     const handleDelete = (index) => {
-        console.log('Trying to delete tag')
-        setTags(tags.filter((el, i) => i !== index))
-    }
+        console.log('Trying to delete tag');
+        setTags(tags.filter((el, i) => i !== index));
+    };
 
     return (
         // Page info form
@@ -99,7 +116,7 @@ const CreatePageForm = () => {
             </div>
             {error && <div className="error">{error}</div>}
         </form>
-    )
-}
+    );
+};
 
 export default CreatePageForm;

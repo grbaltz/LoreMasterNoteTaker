@@ -9,7 +9,7 @@ const getPage = async (req, res) => {
         return res.status(400).json({ error: "Invalid page ID" });
     }
 
-    const page = await Page.findById(id);
+    const page = await Page.findById(id).populate('parent').populate('children'); // Populate parent and children
 
     if (!page) {
         return res.status(404).json({ error: "Page not found" });
@@ -35,14 +35,17 @@ const createPage = async (req, res) => {
     // Validate required fields
     if (!title) {
         return res.status(400).json({ error: "Title is required" });
-    } else if (!parent) {
-        // console.log('no parent for page: ' + title)
-        // return res.status(400).json({ error: "Parent is required" });
     }
 
     try {
-        const page = new Page({ title, tags });
+        const page = new Page({ title, tags, parent });
         await page.save();
+
+        if (parent) {
+            // Update the parent's children array
+            await Page.findByIdAndUpdate(parent, { $push: { children: page._id } });
+        }
+
         console.log('Page created successfully');
         res.status(201).json(page);
     } catch (error) {
@@ -62,6 +65,11 @@ const deletePage = async (req, res) => {
 
     if (!page) {
         return res.status(404).json({ error: "Page not found" });
+    }
+
+    // Remove the deleted page from its parent's children array
+    if (page.parent) {
+        await Page.findByIdAndUpdate(page.parent, { $pull: { children: page._id } });
     }
 
     res.status(200).json({ message: "Page deleted successfully" });
