@@ -6,7 +6,7 @@ import { NavLink, useNavigate } from 'react-router-dom';
 // components
 import ContextMenu from './ContextMenu';
 import DeletePageButton from './DeletePageButton';
-import DropdownArrow from './DropdownArrow';
+import Dropdown from './Dropdown';
 
 // Sidebar to LMNT, displays list of pages, create page option, logo, etc
 // TODO: Make collapsible and adjustable
@@ -144,7 +144,7 @@ const LeftSidebar = () => {
                 // If page is a top-page, check if has children and if so, show dropdown arrow
                 page.children &&
                   <div className="page-dropdown">
-                    <DropdownArrow />
+                    <Dropdown />
                     <NavLink className="page-link" to={'/page/' + page._id}>
                       {page.title}
                     </NavLink>
