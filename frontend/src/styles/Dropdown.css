@@ -4,7 +4,6 @@
     user-select: none;
     justify-content: center;
     align-items: center;
-    /* background-color: red; */
   }
   
 .arrow {
@@ -15,7 +14,7 @@
     border-top: 6px solid rgb(207, 143, 4);
     transition: transform 0.3s ease;
     padding-bottom: 2.5px;
-    margin-right: 10px;
+    margin-right: 5px;
     transform-origin: 50% 25%;
 }
 

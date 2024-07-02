@@ -8,8 +8,8 @@
     height: 100vh;
     font-family: Manrope;
     align-items: flex-start;
-    padding: 20px; /* Add padding to the container */
-    box-sizing: border-box; /* Ensure padding is included in the width calculation */
+    padding: 10px;
+    box-sizing: border-box;
     gap: 5px;
 }
 
@@ -32,38 +32,46 @@
 }
 
 .create-page-button {
-    text-decoration: none; /* Removes underline from links */
-    color: white; /* Dark text color */
+    text-decoration: none;
+    color: white;
     width: 100%;
-    font-family: Manrope;
-    font-size: 16px;
     background-color: transparent;
     border: 0;
     outline: none;
     cursor: pointer;
-    text-align: left; /* Ensure text is aligned to the left */
-    /* padding: 5px 0; Consistent padding */
-    box-sizing: border-box; /* Ensure padding is included in the width calculation */
+    text-align: left;
+    box-sizing: border-box;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
 }
 
 .page-link {
-    text-decoration: none; /* Removes underline from links */
-    color: white; /* Dark text color */
-    width: 100%;
+    text-decoration: none;
+    color: white;
+    display: block;
     font-family: Manrope;
-    text-align: left; /* Ensure text is aligned to the left */
-    /* padding: 5px 0; Consistent padding */
-    box-sizing: border-box; /* Ensure padding is included in the width calculation */
+    font-size: 16px;
+    text-align: left;
+    box-sizing: border-box;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    width: 100%;
 }
 
-/* Add specific styles for the sidebar items */
 .sidebar-item {
     display: flex;
     flex-direction: column;
-    width: 100%; /* Ensure items take the full width */
+    width: 100%;
     gap: 5px;
     text-align: left;
-    box-sizing: border-box; /* Ensure padding is included in the width calculation */
+    box-sizing: border-box;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    font-size: 16px;
+    font-family: Manrope;
 }
 
 .sidebar-container .rename-input {
@@ -73,8 +81,15 @@
     font-size: 16px;
     border: none;
     outline: none;
-    padding: 5px 0; /* Consistent padding */
+    padding: 5px 0;
     max-width: 100%;
     width: 100%;
     box-sizing: border-box;
+}
+
+.page-list-elem {
+    display: flex;
+    align-items: center; /* Align dropdown and text in the center */
+    width: 130px; /* MAKE NON-FIXED */
+    font-size: 16px;
 }

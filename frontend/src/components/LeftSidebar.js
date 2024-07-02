@@ -6,7 +6,7 @@ import { NavLink, useNavigate } from 'react-router-dom';
 // components
 import ContextMenu from './ContextMenu';
 import DeletePageButton from './DeletePageButton';
-import Dropdown from './Dropdown';
+import PageListElem from './PageListElem';
 
 // Sidebar to LMNT, displays list of pages, create page option, logo, etc
 // TODO: Make collapsible and adjustable
@@ -27,6 +27,7 @@ const LeftSidebar = () => {
   const [newPageParentID, setNewPageParentID] = useState(null);
   const navigate = useNavigate();
   const [expandedPages, setExpandedPages] = useState([]);
+  const [dropdownStatus, setDropdownStatus] = useState(false);
 
   useEffect(() => {
     const handleClick = () => setContextMenu({
@@ -44,13 +45,12 @@ const LeftSidebar = () => {
   // Trigger context menu on right click
   const handleRightClick = (e, page) => {
     e.preventDefault();
+    console.log(page.title + " clicked on")
+
     const x = e.clientX;
     const y = e.clientY;
     setContextMenu({
-        position: {
-            x,
-            y,
-        },
+        position: { x, y },
         toggled: true,
         page: page
     });
@@ -65,13 +65,13 @@ const LeftSidebar = () => {
     navigate('/page/new', { state: { parentId: page._id } });
   };
 
+  // Toggles the value of the page dropdown element
   const toggleExpand = (pageId) => {
-    setExpandedPages((prevState) => ({
-      ...prevState,
-      [pageId]: !prevState[pageId],
-    }));
-  }
-
+    setExpandedPages((prevState) =>
+      prevState.includes(pageId) ? prevState.filter((id) => id !== pageId) : [...prevState, pageId]
+    );
+  };
+  
   // Changes to input, closes cm, and focuses input field when 'Rename Page' in context menu selected
   const handleRenameClick = (page) => {
     setEditMode(page._id);
@@ -125,7 +125,7 @@ const LeftSidebar = () => {
         
         {/* Lists the pages in db */}
         {pages && pages.map((page) => (
-          <div key={page._id} className="sidebar-item" onContextMenu={(e) => handleRightClick(page)}>
+          <div key={page._id} className="sidebar-item" >
             {/* If renaming, display input, otherwise link to page */}
             {editMode === page._id ? (
               <input
@@ -139,16 +139,14 @@ const LeftSidebar = () => {
                 autoFocus
               />
             ) : (
-              // If page is a subpage
-              !page.parent &&
-                // If page is a top-page, check if has children and if so, show dropdown arrow
-                page.children &&
-                  <div className="page-dropdown">
-                    <Dropdown />
-                    <NavLink className="page-link" to={'/page/' + page._id}>
-                      {page.title}
-                    </NavLink>
-                  </div>
+              <PageListElem 
+                key={page._id}
+                page={page}
+                level={0}
+                toggleExpand={toggleExpand}
+                expandedPages={expandedPages}
+                onContextMenu={handleRightClick}
+              />
             )}
           </div>
         ))}

@@ -1,26 +1,37 @@
 .home-container {
     display: flex;
     flex-direction: column;
-    flex: 1;
-}
-.home-container .text {
-    color: white;
-    display: flex;
-    justify-content: center;
-    margin-top: 10%;
-    font-size: 20px;
-    font-weight: bold;
-}
-.home-container .page-link {
-    display: flex;
-    flex: 1;
-    justify-content: center;
     align-items: center;
+    min-height: 100vh;
+    width: 100%;
+    justify-content: space-between; /* Ensure the title and button are at the top and bottom */
+    padding: 20px;
+    box-sizing: border-box;
 }
-.home-container .delete-all-pages-button {
+
+.home-title {
+    color: orange;
+    font-family: Manrope;
+    font-size: 40px;
+    font-weight: bold;
+    margin: 20px; /* Add some margin to the top */
+}
+
+.pages-list {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    flex-grow: 1; /* Allow the list to take up available space */
+    justify-content: top; /* Center the list vertically */
+    gap: 10px; /* Minimal gap between listed pages */
+}
+
+.delete-all-pages-button {
     background-color: transparent;
     color: red;
-    border-color: red;
-    position: absolute;
-    bottom: 5px;
+    border: 1px solid red;
+    margin-bottom: 20px; /* Add margin to the bottom */
+    padding: 10px 20px; /* Add some padding */
+    cursor: pointer;
+    align-self: center; /* Center the button horizontally */
 }

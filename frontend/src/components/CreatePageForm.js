@@ -16,7 +16,7 @@ const CreatePageForm = () => {
 
     // Submits new page to db
     const handleSubmit = async (e) => {
-        console.log('Submit requested'); // Debugging log
+        console.log(`REQUEST: Create Page: \ntitle: ${title} \ntags: ${tags} \nparent: ${parentId}`); // Debugging log
         e.preventDefault();
 
         const page = { title, tags, parent: parentId };
@@ -71,6 +71,7 @@ const CreatePageForm = () => {
     const handleKeyDown = (e) => {
         console.log('Trying to add tag, keydown:', e.key);
         if (e.key === 'Enter') {
+            e.preventDefault();
             const value = e.target.value;
             if (!value.trim()) {
                 handleSubmit(e);
@@ -89,7 +90,7 @@ const CreatePageForm = () => {
 
     return (
         // Page info form
-        <form className="inputs-container" onKeyDown={(e) => e.key === 'Enter' && e.preventDefault()} onSubmit={handleSubmit}>
+        <form className="inputs-container" onSubmit={handleSubmit}>
             <input 
                 className="page-title-input"
                 type="text"

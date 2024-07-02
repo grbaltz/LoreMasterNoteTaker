@@ -1,18 +1,10 @@
-import { useState } from 'react';
+import React from 'react';
 import '../styles/Dropdown.css';
 
-const Dropdown = () => {
-    const [isOpen, setIsOpen] = useState(false);
-
-    const handleOpen = () => {
-        setIsOpen(!isOpen);
-    }
-
-    return (
-        <div className="dropdown-container">
-            <div className={`arrow ${isOpen ? 'open' : ''}`} onClick={handleOpen}/>
-        </div>
-    )
-}
+const Dropdown = ({ isOpen }) => (
+  <span
+    className={`dropdown-container arrow ${isOpen ? 'open' : ''}`}
+  ></span>
+);
 
 export default Dropdown;

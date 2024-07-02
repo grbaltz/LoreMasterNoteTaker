@@ -1,0 +1,14 @@
+.page-list-elem-link {
+    text-decoration: none;
+    color: white;
+    display: block;
+    flex-grow: 1;
+    width: 100%;
+    font-family: Manrope;
+    text-align: left;
+    box-sizing: border-box;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    background: red;
+}

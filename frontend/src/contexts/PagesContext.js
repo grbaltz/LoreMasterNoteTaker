@@ -4,19 +4,70 @@ import axios from 'axios';
 // Create the PagesContext
 export const PagesContext = createContext();
 
+const structurePages = (pages) => {
+    const pageMap = new Map();
+
+    // Create a mpa of page ids to objects
+    pages.forEach(page => pageMap.set(page._id, { ...page, children: [] }));
+
+    const structuredPages = [];
+
+    pageMap.forEach((page, id) => {
+        if (page.parent) {
+            if (pageMap.has(page.parent)) {
+                pageMap.get(page.parent).children.push(page); // adds the current page to the list of children for the parent page
+            }
+        } else {
+            structuredPages.push(page); // top level page, hence saved in top level list
+        }
+    });
+
+    return structuredPages;
+}
+
 // Define the reducer to handle different actions
 export const pagesReducer = (state, action) => {
     switch (action.type) {
         case 'SET_PAGES':
             return {
                 ...state,
-                pages: action.payload
+                // pages: action.payload
+                pages: structurePages(action.payload)
             };
-        case 'CREATE_PAGE':
-            return {
-                ...state,
-                pages: [action.payload, ...state.pages]
-            };
+            case 'CREATE_PAGE':
+                // Add the new page to the state
+                const newPage = action.payload;
+
+                const addChild = (pages, newPage) => {
+                    return pages.map(page => {
+                    if (page._id === newPage.parent) {
+                        // Add the new page to its parent's children array
+                        return {
+                        ...page,
+                        children: [...(page.children || []), newPage],
+                        };
+                    }
+                    if (page.children && page.children.length > 0) {
+                        return {
+                        ...page,
+                        children: addChild(page.children, newPage),
+                        };
+                    }
+                    return page;
+                    });
+                };
+
+                let updatedPages = addChild(state.pages, newPage);
+
+                // If newPage has no parent, it's a top-level page
+                if (!newPage.parent) {
+                    updatedPages = [...state.pages, newPage];
+                }
+
+                return {
+                    ...state,
+                    pages: updatedPages,
+                };
         case 'DELETE_PAGE':
             return {
                 ...state,
