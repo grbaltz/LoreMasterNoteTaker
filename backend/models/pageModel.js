@@ -8,18 +8,19 @@ const pageSchema = new Schema({
     },
     tags: {
         type: [String],
-        required: false,
     },
     parent: {
         type: Schema.Types.ObjectId,
         ref: 'Page',
-        required: false,
     },
     children: [{
         type: Schema.Types.ObjectId,
         ref: 'Page',
-        required: false,
     }],
+    content: {
+        type: String,
+        default: '',
+    }
 }, { timestamps: true });
 
 module.exports = mongoose.model('Page', pageSchema);

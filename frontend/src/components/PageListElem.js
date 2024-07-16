@@ -1,6 +1,7 @@
 import React from 'react';
 import { NavLink } from 'react-router-dom';
 import Dropdown from './Dropdown';
+import '../styles/PageListElem.css';
 
 const PageListElem = ({ page, level, toggleExpand, expandedPages, onContextMenu }) => {
     const hasChildren = Array.isArray(page.children) && page.children.length > 0;
@@ -11,9 +12,13 @@ const PageListElem = ({ page, level, toggleExpand, expandedPages, onContextMenu 
             <div
                 className="page-list-elem"
                 style={{ paddingLeft: `${level * 8}px`, cursor: hasChildren ? 'pointer' : 'default' }}
-                onClick={() => hasChildren && toggleExpand(page._id)}
+                // onClick={() => hasChildren && toggleExpand(page._id)}
             >
-                {hasChildren ? <Dropdown isOpen={isExpanded} /> : 
+                {hasChildren ? 
+                    <div className="dropdown-container" onClick={() => toggleExpand(page._id)}>
+                        <Dropdown isOpen={isExpanded} /> 
+                    </div>
+                : 
                   <text>📄</text>
                 }
                 <NavLink className="page-link" to={`/page/${page._id}`}>

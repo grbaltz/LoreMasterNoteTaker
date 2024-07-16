@@ -10,7 +10,10 @@ const Page = () => {
   const [pageData, setPageData] = useState(null);
   const { pages, dispatch } = usePagesContext();
   const [error, setError] = useState(null);
+  const [tags, setTags] = useState('');
   const navigate = useNavigate();
+  const [content, setContent] = useState('');
+  const [editingTags, setEditingTags] = useState(false);
 
   useEffect(() => {
     // Fetch page data from the server or MongoDB using the id
@@ -19,6 +22,8 @@ const Page = () => {
       .then(data => {
         console.log('Fetched page data:', data); // Debugging log
         setPageData(data);
+        setContent(data.content);
+        setTags(data.tags);
       })
       .catch(error => {
         console.error('Error fetching page data:', error);
@@ -49,24 +54,117 @@ const Page = () => {
     }
   };
 
+  const handleContentChange = async (e) => {
+    const newContent = e.target.value;
+    setContent(newContent);
+
+    try {
+      const response = await fetch('/pages/' + id, {
+        method: 'PATCH',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ content: newContent })
+      });
+
+      if (!response.ok) {
+        const json = await response.json();
+        console.log('Found error in updating page content');
+        setError(json.error);
+      } else {
+        const updatedPage = await response.json();
+        dispatch({ type: 'UPDATE_PAGE', payload: updatedPage })
+      }
+    } catch (err) {
+      console.log(err)
+    }
+  }
+
+  // Deletes target tag
+  const handleTagDelete = (index) => {
+    console.log('Trying to delete tag');
+    setTags(tags.filter((el, i) => i !== index));
+  };
+
+  // If 'Enter', then submit, otherwise continue typing tag name
+  const handleTagKeyDown = (e) => {
+    console.log('Trying to add tag, keydown:', e.key);
+    if (e.key === 'Enter') {
+        e.preventDefault();
+        const value = e.target.value;
+        if (!value.trim()) {
+            // handleSubmit(e);
+        } else {
+            setTags([...tags, value]);
+            e.target.value = '';
+        }
+    }
+};
+
   return (
-    <div className="container">
-      <div className="current-page-container">
-        <h1>{pageData.title}</h1>
-        <p>Tags: {pageData.tags.join(', ')}</p>
-        <p>ID: {pageData._id}</p>
-        {pageData.parent ? <p>Parent ID: {pageData.parent._id}</p> : <p>No parent</p>}
-        <p>Children:</p>
-        {pageData.children && pageData.children.length > 0 ? (
-          pageData.children.map((child) => (
-            <p key={child._id}>Child: {child._id}</p>
-          ))
-        ) : (
-          <p>No children</p>
+    <div className="current-page-container">
+      {/* Page Info */}
+      <h1>{pageData.title}</h1>
+      <div className='page-tags-container' >
+        <p>Tags: </p>
+        {/* If editing the tags, then display each one with 'x', etc., else list each tag with border */}
+        {editingTags ? (tags.map((tag, index) => (
+          <div className="editing-tags-container" onBlur={() => setEditingTags(false)}>
+            <div className="page-tag-item" key={index}>
+                <span className="text">{tag}</span>
+                <span onClick={() => handleTagDelete(index)} className="close">&times;</span>
+            </div>
+            <input autoFocus className='page-tags-input' onKeyDown={handleTagKeyDown} placeholder={'Tag name'}></input>
+          </div>
+        ))) : (
+          <div 
+            className="editing-tags-container" 
+            style={{ border: '1px solid red', padding: '5px'}} 
+            onMouseOver={(e) => e.currentTarget.style.background = 'orange'} 
+            onMouseLeave={(e) => e.currentTarget.style.background = 'transparent'}
+            onClick={() => setEditingTags(true)}
+          >
+            {tags.map((tag, index) => (
+              <span 
+                className="page-tag"
+                key={index} 
+                onMouseOver={(e) => e.stopPropagation()}
+                onMouseLeave={(e) => e.stopPropagation()}
+              >
+                {tag}
+              </span>
+            ))}
+          </div>
+          
         )}
-        {/* Render other page details */}
-        <button className="delete-page-button" onClick={handleDeletePage}>Delete Page</button>
-      </div>
+
+        
+
+
+        {/* <input className='tags-input' onKeyDown={handleTagKeyDown} placeholder={'Tag name'}></input> */}
+    </div>
+      <p>ID: {id}</p>
+      {pageData.parent ? <p>Parent ID: {pageData.parent.title}</p> : <p>No parent</p>}
+      <p>Children:</p>
+      {pageData.children && pageData.children.length > 0 ? (
+        pageData.children.map((child) => (
+          <p key={child._id}>Child: {child._id}</p>
+        ))
+      ) : (
+        ''
+      )}
+
+      {/* Page layout and content area */}
+      <textarea 
+        name="main-content" 
+        id="main-content" 
+        className="page-content-container" 
+        value={content}
+        onChange={handleContentChange}
+      />
+
+      {/* Render other page details */}
+      <button className="delete-page-button" onClick={handleDeletePage}>Delete Page</button>
     </div>
   );
 };

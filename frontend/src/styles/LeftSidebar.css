@@ -87,9 +87,3 @@
     box-sizing: border-box;
 }
 
-.page-list-elem {
-    display: flex;
-    align-items: center; /* Align dropdown and text in the center */
-    width: 130px; /* MAKE NON-FIXED */
-    font-size: 16px;
-}
