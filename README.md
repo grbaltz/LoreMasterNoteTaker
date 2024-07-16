@@ -3,13 +3,14 @@ Garrett Baltz 2024
 
 ### Description
 
-Loremaster Notetaker (LMNT) is a wiki-building application designed with Dungeon Masters and Game Masters across all types of RPG-style games
-with the focus being akin to traditional notation software such as Notion or Obsidian. Where LMNT stands out is its purposeful design 
-for lore wikis through features such as maps, content visibility customization, loot-table templates, dice rolling functions, and more...
+Loremaster Notetaker (LMNT) is a wiki-building application designed for Dungeon and Game Masters across all types of RPG-style games. The 
+focus is akin to traditional notation software such as Notion or Obsidian and emphasizes the simplicity of an intuitive workspace alongside 
+the customizability befit for a fantasy world. Where LMNT stands out is its purposeful design for lore wikis through features such as maps, 
+content visibility customization, loot-table templates, dice rolling functions, and more...
 
 I am designing this application as I have been building my own Dungeons and Dragons world for multiple years now, always keeping track
 of storylines, session summaries, characters (player/dm), myths, events, etc. While I have a great love for Notion as it has been an
-incredible software, in seeing what fellow sites such as LegendKeeper have done, I wanted to design an application myself to further
+incredible software, after discovering what fellow sites such as LegendKeeper brought to the table, I wanted to design an application  to further
 what they have all implemented while meeting my personal desires at the same time. 
 
 ## Main Goals
