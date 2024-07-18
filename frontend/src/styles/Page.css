@@ -3,7 +3,7 @@
     flex-direction: column;
     color: white;
     font-family: Manrope;
-    background-color: #333333;
+    /* background-color: #333333; */
     flex: 1;
     justify-content: center;
     align-items: start;
@@ -26,6 +26,7 @@
     display: flex;
     justify-content: left;
     padding: .5em;
+    padding-left: 0px;
     background-color: transparent;
     resize: vertical;
     color: rgb(167, 167, 230);
@@ -35,14 +36,12 @@
 .page-tags-container {
     background-color: transparent;
     border: none;
-    /* padding: 8px; */
-    /* margin: .5em; */
     display: flex;
     flex-direction: row;
     align-items: center;
     flex-wrap: wrap;
     gap: .5em;
-    /* background-color: green; */
+    padding-bottom: 0%;
 }
 .page-tag {
     border: none;
@@ -99,5 +98,8 @@
 .editing-tags-container {
     display: flex;
     flex-direction: row;
-    gap: .5em
+    gap: .5em;
+    min-width: 15vw;
+    min-height: 20px;
+    padding-bottom: 0%;
 }

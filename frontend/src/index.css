@@ -31,8 +31,9 @@ code {
   color: #15191d;
   color: #212529;
   color: #313b4b;
-  color: #333333; 
-  color: #6f6f6f;
+  color: #333333; /* Main background color */
+  color: #6f6f6f; 
   color: #262626;
-  color: #ffffff;
+  color: #ffffff; /* White text etc. */
+  color: #444444; /* Highlighted area color */
 }

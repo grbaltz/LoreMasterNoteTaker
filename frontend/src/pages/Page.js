@@ -99,31 +99,78 @@ const Page = () => {
             e.target.value = '';
         }
     }
-};
+  };
+
+  // Toggles value of editingTags, patches tags list if leaving edit mode
+  const toggleEditTags = async (e) => {
+    if (e.currentTarget.contains(e.relatedTarget)) {
+      return;
+    }
+
+    console.log("editingTags = " + editingTags);
+    setEditingTags(!editingTags);
+
+    // Clear background hover color
+    e.currentTarget.style.background = 'transparent';
+
+    // Because setEditingTags is async (ish), then the value of editingTags is still as it came in with
+    if (editingTags) {
+      try {
+        const response = await fetch('/pages/' + id, {
+          method: 'PATCH',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({ tags: tags })
+        })
+  
+        if (!response.ok) {
+          const json = await response.json();
+          setError(json.error);
+        } else {
+          const updatedPage = await response.json();
+          dispatch({ type: 'UPDATE_PAGE', payload: updatedPage })
+        }
+      } catch (err) {
+        console.log(err);
+      } 
+    }
+  }
 
   return (
+    // Page container
     <div className="current-page-container">
-      {/* Page Info */}
+      {/* Title */}
       <h1>{pageData.title}</h1>
+      {/* Tags area */}
       <div className='page-tags-container' >
         <p>Tags: </p>
         {/* If editing the tags, then display each one with 'x', etc., else list each tag with border */}
-        {editingTags ? (tags.map((tag, index) => (
-          <div className="editing-tags-container" onBlur={() => setEditingTags(false)}>
-            <div className="page-tag-item" key={index}>
-                <span className="text">{tag}</span>
-                <span onClick={() => handleTagDelete(index)} className="close">&times;</span>
-            </div>
-            <input autoFocus className='page-tags-input' onKeyDown={handleTagKeyDown} placeholder={'Tag name'}></input>
-          </div>
-        ))) : (
+        {editingTags ? (
           <div 
             className="editing-tags-container" 
-            style={{ border: '1px solid red', padding: '5px'}} 
-            onMouseOver={(e) => e.currentTarget.style.background = 'orange'} 
+            onBlur={toggleEditTags}
+            tabIndex="0"
+          > 
+            {tags.map((tag, index) => (
+              <div className="page-tag-item" key={index}>
+                  <span className="text">{tag}</span>
+                  <span style={{ cursor: 'pointer' }}onClick={(e) => { e.stopPropagation(); handleTagDelete(index); }} className="close">
+                    &times;
+                  </span>
+              </div>
+            ))}
+              <input autoFocus className='page-tags-input' onKeyDown={handleTagKeyDown} placeholder={'Tag name'} />
+          </div>
+        ) : (
+          <div 
+            className="editing-tags-container"  
+            onMouseOver={(e) => e.currentTarget.style.background = '#444444'} 
             onMouseLeave={(e) => e.currentTarget.style.background = 'transparent'}
-            onClick={() => setEditingTags(true)}
+            onClick={(e) => toggleEditTags(e)}
+            placeholder="Click to add tabs"
           >
+            {tags.length === 0 ? (<span style={{ opacity: '30%'}}>Click to add tags</span>) : '' }
             {tags.map((tag, index) => (
               <span 
                 className="page-tag"
@@ -135,24 +182,19 @@ const Page = () => {
               </span>
             ))}
           </div>
-          
         )}
-
-        
-
-
-        {/* <input className='tags-input' onKeyDown={handleTagKeyDown} placeholder={'Tag name'}></input> */}
-    </div>
+      </div>
       <p>ID: {id}</p>
       {pageData.parent ? <p>Parent ID: {pageData.parent.title}</p> : <p>No parent</p>}
       <p>Children:</p>
-      {pageData.children && pageData.children.length > 0 ? (
-        pageData.children.map((child) => (
-          <p key={child._id}>Child: {child._id}</p>
-        ))
-      ) : (
-        ''
-      )}
+      {
+        pageData.children && pageData.children.length > 0
+          ? pageData.children.map((child) => (
+              <p key={child._id}>Child: {child._id}</p>
+            ))
+          : ""
+      }
+
 
       {/* Page layout and content area */}
       <textarea 
@@ -161,6 +203,7 @@ const Page = () => {
         className="page-content-container" 
         value={content}
         onChange={handleContentChange}
+        placeholder="Start typing here..."
       />
 
       {/* Render other page details */}

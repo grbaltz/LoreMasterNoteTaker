@@ -8,6 +8,7 @@ const CreatePageForm = () => {
     const [title, setTitle] = useState('');
     const [tags, setTags] = useState([]);
     const [error, setError] = useState(null);
+    const [content, setContent] = useState('');
     const titleRef = useRef(null);
     const navigate = useNavigate();
     const location = useLocation();
