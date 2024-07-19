@@ -20,7 +20,7 @@ const CreatePageForm = () => {
         console.log(`REQUEST: Create Page: \ntitle: ${title} \ntags: ${tags} \nparent: ${parentId}`); // Debugging log
         e.preventDefault();
 
-        const page = { title, tags, parent: parentId };
+        const page = { title, tags, parent: parentId, content };
 
         try {
             const response = await fetch('/pages', {
