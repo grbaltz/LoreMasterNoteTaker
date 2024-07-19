@@ -18,21 +18,6 @@
     border-color: red;
     color: red;
 }
-.page-content-container {
-    border: none;
-    outline: transparent;
-    width: 70%;
-    height: 80%;
-    display: flex;
-    justify-content: left;
-    padding: .5em;
-    padding-left: 0px;
-    background-color: transparent;
-    resize: vertical;
-    color: rgb(167, 167, 230);
-    font-family: Manrope;
-    font-size: 16px;
-}
 .page-tags-container {
     background-color: transparent;
     border: none;

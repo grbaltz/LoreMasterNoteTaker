@@ -4,6 +4,7 @@ import { usePagesContext } from '../hooks/usePagesContext';
 import '../styles/Page.css';
 
 // components
+import PageContent from '../components/PageContent';
 
 const Page = () => {
   const { id } = useParams(); // Get the unique identifier from the URL
@@ -197,10 +198,10 @@ const Page = () => {
 
 
       {/* Page layout and content area */}
-      <textarea 
+      <PageContent 
         name="main-content" 
         id="main-content" 
-        className="page-content-container" 
+         
         value={content}
         onChange={handleContentChange}
         placeholder="Start typing here..."
