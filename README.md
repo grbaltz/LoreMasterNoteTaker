@@ -1,6 +1,8 @@
 # Loremaster Notetaker - LMNT
 Garrett Baltz 2024
 
+# IN DEVELOPMENT
+
 ### Description
 
 Loremaster Notetaker (LMNT) is a wiki-building application designed for Dungeon and Game Masters across all types of RPG-style games. The 
