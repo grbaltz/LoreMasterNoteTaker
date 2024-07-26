@@ -1,7 +1,7 @@
+## /## Currently In Development /##
+
 # Loremaster Notetaker - LMNT
 Garrett Baltz 2024
-
-# IN DEVELOPMENT
 
 ### Description
 
