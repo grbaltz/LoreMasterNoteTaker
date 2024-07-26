@@ -1,4 +1,4 @@
-## /## Currently In Development /##
+## <span style='color: orange;'>Currently In Development </span>
 
 # Loremaster Notetaker - LMNT
 Garrett Baltz 2024
