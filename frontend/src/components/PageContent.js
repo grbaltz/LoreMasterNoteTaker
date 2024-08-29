@@ -1,4 +1,5 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import {useParams} from 'react-router-dom'
 import '../styles/PageContent.css';
 
 // Components/Variables
@@ -10,11 +11,32 @@ import { commandsList } from './Commands';
 */
 
 const PageContent = () => {
+    const { id } = useParams();
     const [content, setContent] = useState('');
     const [expComm, setExpComm] = useState(false);
     const [command, setCommand] = useState('');
     const [ignoreKeys] = useState(["Shift", "CapsLock", "Control", "Alt"]);
     
+    // Fetch content from the server on mount
+    useEffect(() => {
+        const fetchContent = async () => {
+        try {
+            const response = await fetch(`/pages/${id}`);
+            const data = await response.json();
+            if (response.ok) {
+            setContent(data.content);
+            document.getElementById('page-content').innerHTML = data.content;
+            } else {
+            console.error('Failed to fetch page content:', data);
+            }
+        } catch (err) {
+            console.error('Error:', err);
+        }
+        };
+
+        fetchContent();
+    }, [id]);
+
     // Handles commands
     /*
         Commands:
@@ -26,14 +48,12 @@ const PageContent = () => {
         TODO
     */
     const handleKeyDown = (e) => {
-        let ta = document.getElementById('page-content');
 
         // If '/', trigger command menu
         if (e.key === '/') {
             console.log('Command expected');
             setExpComm(true);
             setCommand('');
-            ta.value = ta.value.slice(0, -1);
             return;
         }
 
@@ -41,11 +61,20 @@ const PageContent = () => {
         if (expComm) {
             if (e.key === 'Enter' || e.key === 'Tab' || e.key === ' ') { // TODO add submission criteria
                 // TODO Submit
-                const foundCommand = commandsList.find(e => e.name.includes(command));
+                const foundCommand = commandsList.find(cmd => cmd.name.includes(command));
                 if (foundCommand) {
                     e.preventDefault();
-                    const comLength = foundCommand.name.length + 2;
-                    setContent(content.slice(0, -comLength));
+
+                    // Remove the command and '/' before it from the content
+                    const currentContent = document.getElementById('page-content').innerHTML;
+                    const commandStart = currentContent.lastIndexOf('/') + 1;
+                    const newContent = currentContent.substring(0, commandStart - 1); // Remove command including the slash
+
+                    // Update content of the div
+                    document.getElementById('page-content').innerHTML = newContent;
+
+                    // Update the content
+                    updateContent(newContent);
                     foundCommand.execute();
                 }
 
@@ -62,9 +91,7 @@ const PageContent = () => {
                     setExpComm(false);
                     console.log('Exited command sequence');
                 }
-            } else if (ignoreKeys.includes(e.key)) {
-                console.log("Skipped key: " + e.key);
-            } else {
+            } else if (!ignoreKeys.includes(e.key)) {
                 setCommand(command + e.key);
             }
         }
@@ -73,19 +100,40 @@ const PageContent = () => {
     }
 
     // Updates content, affected by handleKeyDown
-    const handleChange = (e) => {
-        const newValue = e.target.value;
-        setContent(newValue);
+    const handleInput = async (e) => {
+        const newContent = e.target.innerHTML;
+        updateContent(newContent);
+    };
+    
+    // Updates the content of the page to db, useful given any input changes the content
+    // as well as submitting a command which removes text
+    const updateContent = async (newContent) => {
+        setContent(newContent);
+    
+        try {
+          const response = await fetch(`/pages/${id}`, {
+            method: 'PATCH',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ content: newContent }),
+          });
+    
+          if (!response.ok) {
+            const errorData = await response.json();
+            console.error('Failed to update content:', errorData);
+          }
+        } catch (err) {
+          console.error('Error:', err);
+        }
     }
 
     return (
-        <textarea 
+        <div
             name="page-content" 
             id="page-content" 
-            value={content}
-            onChange={handleChange}
+            contenteditable="true"
             className="page-content-container"
             onKeyDown={handleKeyDown}
+            onInput={handleInput}
         />
     );
 };
