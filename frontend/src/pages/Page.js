@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { usePagesContext } from '../hooks/usePagesContext';
+import * as api from '../api';
 import '../styles/Page.css';
 
 // components
@@ -36,50 +37,12 @@ const Page = () => {
 
   const handleDeletePage = async () => {    
     try {
-      const response = await fetch('/pages/' + id, {
-        method: 'DELETE',
-      });
-      const json = await response.json();
-
-      if (!response.ok) {
-        console.log('Found error in deleting page');
-        setError(json.error);
-      }
-
-      dispatch({ type: 'DELETE_PAGE', payload: id });
+      await api.deletePage(id, dispatch);
       navigate('/'); // Redirect to homepage or another route after deletion
-
     } catch (err) {
-      console.error('Submission failed', err);
-      setError('Something went wrong!');
+      throw(err);
     }
   };
-
-  const handleContentChange = async (e) => {
-    const newContent = e.target.value;
-    setContent(newContent);
-
-    try {
-      const response = await fetch('/pages/' + id, {
-        method: 'PATCH',
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({ content: newContent })
-      });
-
-      if (!response.ok) {
-        const json = await response.json();
-        console.log('Found error in updating page content');
-        setError(json.error);
-      } else {
-        const updatedPage = await response.json();
-        dispatch({ type: 'UPDATE_PAGE', payload: updatedPage })
-      }
-    } catch (err) {
-      console.log(err)
-    }
-  }
 
   // Deletes target tag
   const handleTagDelete = (index) => {
@@ -117,21 +80,7 @@ const Page = () => {
     // Because setEditingTags is async (ish), then the value of editingTags is still as it came in with
     if (editingTags) {
       try {
-        const response = await fetch('/pages/' + id, {
-          method: 'PATCH',
-          headers: {
-            'Content-Type': 'application/json'
-          },
-          body: JSON.stringify({ tags: tags })
-        })
-  
-        if (!response.ok) {
-          const json = await response.json();
-          setError(json.error);
-        } else {
-          const updatedPage = await response.json();
-          dispatch({ type: 'UPDATE_PAGE', payload: updatedPage })
-        }
+        api.updatePageTags(id, tags, dispatch)
       } catch (err) {
         console.log(err);
       } 
@@ -198,14 +147,7 @@ const Page = () => {
 
 
       {/* Page layout and content area */}
-      <PageContent 
-        name="main-content" 
-        id="main-content" 
-         
-        value={content}
-        onChange={handleContentChange}
-        placeholder="Start typing here..."
-      />
+      <PageContent />
 
       {/* Render other page details */}
       <button className="delete-page-button" onClick={handleDeletePage}>Delete Page</button>

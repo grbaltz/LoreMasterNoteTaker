@@ -2,7 +2,7 @@
     border: none;
     outline: transparent;
     width: 70%;
-    height: 80%;
+    height: auto;
     display: flex;
     justify-content: left;
     padding: .5em;
@@ -12,4 +12,5 @@
     color: rgb(167, 167, 230);
     font-family: Manrope;
     font-size: 16px;
+    resize: none;
 }
