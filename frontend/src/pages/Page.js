@@ -90,7 +90,8 @@ const Page = () => {
   return (
     // Page container
     <div className="current-page-container">
-      {/* Title */}
+      <div className="page-details-container">
+        {/* Title */}
       <h1>{pageData.title}</h1>
       {/* Tags area */}
       <div className='page-tags-container' >
@@ -144,6 +145,8 @@ const Page = () => {
             ))
           : ""
       }
+      </div>
+      
 
 
       {/* Page layout and content area */}

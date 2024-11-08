@@ -5,8 +5,11 @@
     justify-content: top;
     align-items: left;
     border: 1px solid orange;
-    padding: 5em 5em;
+    /* padding: 5em 5em; */
     overflow: auto;
+}
+.page-details-container {
+    padding: 80px 80px 0 80px !important;
 }
 .page-tags-container {
     background-color: transparent;
@@ -16,7 +19,6 @@
     align-items: center;
     flex-wrap: wrap;
     gap: .5em;
-    padding-bottom: 0%;
 }
 .page-tag {
     border: none;

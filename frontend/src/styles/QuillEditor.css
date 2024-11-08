@@ -3,27 +3,26 @@
     flex: 1;
     display: flex;
     flex-direction: column;
-    
 }
 .ql-toolbar {
     border-top: none !important;
     border-left: none !important;
     border-right: none !important;
     border-bottom: 1px solid #cccccc !important;
+    padding: 0 80px 1em 72px !important;
 }
-.ql-formats {
-
+.ql-blank::before {
+    color: #929292 !important;
+    /* padding: 1em 80px 1em 80px !important; */
+    position: static !important;
 }
 .ql-editor {
-    color: white;
-    border-radius: 0 0 10px 10px;
-    flex: 1;
-    overflow: hidden;
+    padding: 0 !important;
 }
 .ql-container {
-    border-radius: 0 0 10px 10px;
     flex: 1;
     border: none !important;
+    padding: 1em 80px 1em 80px !important;
 }
 .ql-clean {
     color:white;
@@ -36,4 +35,7 @@
 }
 .ql-picker {
     color: white !important;
+}
+.ql-picker-options {
+    background-color: #333333 !important;
 }
