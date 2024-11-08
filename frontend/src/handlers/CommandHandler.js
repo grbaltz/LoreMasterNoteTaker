@@ -52,15 +52,19 @@ const CommandHandler = ({ input, setInput }) => {
             if (text) {
                 const beg = text.slice(0, range.startOffset(0));
                 const end = text.slice(range.endOffset);
-                const newInput = beg + 'fake bold' + end;
+                const newInput = `${beg}**${text}**${end}`;
 
                 setInput(newInput);
                 range.deleteContents();
                 range.insertNode(document.createTextNode(`**${text}**`));
                 selection.removeAllRanges();
             } else {
+                // If no selection is made
+                const cursorPos = window.anchorOffset();
+                const beg = input.slice(0, cursorPos);
+                const end = input.slice(cursorPos);
                 setIsBold(!isBold);
-                const newInput = isBold ? input + '**' : input
+                const newInput = isBold ? `${beg}**` : input
                 setInput(newInput);
             }
         }
@@ -76,6 +80,7 @@ const CommandHandler = ({ input, setInput }) => {
     }
 
     useEffect(() => {
+        console.log("Noticed a keydown events")
         document.addEventListener('keydown', handleKeyDown);
         return () => {
             document.removeEventListener('keydown', handleKeyDown);
