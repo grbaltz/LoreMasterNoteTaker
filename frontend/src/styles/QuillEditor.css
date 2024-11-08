@@ -1,12 +1,39 @@
-.editor {
-    color: white;
+.quill {
+    width: 100%;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    
 }
 .ql-toolbar {
-    color: white;
+    border-top: none !important;
+    border-left: none !important;
+    border-right: none !important;
+    border-bottom: 1px solid #cccccc !important;
 }
 .ql-formats {
+
+}
+.ql-editor {
     color: white;
+    border-radius: 0 0 10px 10px;
+    flex: 1;
+    overflow: hidden;
 }
 .ql-container {
-    background-color: green;
+    border-radius: 0 0 10px 10px;
+    flex: 1;
+    border: none !important;
+}
+.ql-clean {
+    color:white;
+}
+.ql-stroke {
+    stroke: white !important;
+}
+.ql-fill {
+    fill: white !important;
+}
+.ql-picker {
+    color: white !important;
 }

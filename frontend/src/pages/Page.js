@@ -150,7 +150,6 @@ const Page = () => {
       <PageContent />
 
       {/* Render other page details */}
-      <button className="delete-page-button" onClick={handleDeletePage}>Delete Page</button>
     </div>
   );
 };

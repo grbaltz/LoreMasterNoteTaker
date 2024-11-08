@@ -4,9 +4,9 @@ import '../styles/PageContent.css';
 import CommandHandler from '../handlers/CommandHandler';
 import { PagesContext } from '../contexts/PagesContext'; // Update this path to your actual context file
 import * as api from '../api'; // Import the function
-import ReactQuill from 'react-quill';
-import 'react-quill/dist/quill.snow.css';
-import '../styles/QuillEditor.css';
+
+// Components
+import TextEditor from './TextEditor';
 
 const PageContent = () => {
   const { id } = useParams();
@@ -40,22 +40,7 @@ const PageContent = () => {
 
   return (
     <>
-      {/* <textarea
-        name="page-content"
-        className="page-content-container"
-        onChange={handleInputChange}
-        value={input}
-        placeholder="Type a message or command"
-      /> */}
-      <ReactQuill
-        theme="snow"
-        className="editor"
-        value={input}
-        onChange={setInput}
-        placeholder="Type a message or roll a dice"
-      >
-
-      </ReactQuill>
+      <TextEditor />
       <CommandHandler input={input} setInput={setInput} />
       {error && <p className="error-message">{error}</p>} {/* Display error message */}
     </>

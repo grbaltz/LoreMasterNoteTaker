@@ -2,20 +2,11 @@
     display: flex;
     flex-direction: column;
     color: white;
-    /* background-color: #333333; */
-    flex: 1;
     justify-content: top;
     align-items: left;
     border: 1px solid orange;
-    padding: 5em 0 0 5em;
-}
-.current-page-container .delete-page-button {
-    position: absolute;
-    bottom: 5px;
-    background-color: transparent;
-    border-width: 1px;
-    border-color: red;
-    color: red;
+    padding: 5em 5em;
+    overflow: auto;
 }
 .page-tags-container {
     background-color: transparent;
