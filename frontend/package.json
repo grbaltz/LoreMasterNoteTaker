@@ -42,5 +42,12 @@
   },
   "prettier": {
     "tabWidth": 4
+  },
+  "devDependencies": {
+    "@babel/core": "^7.26.0",
+    "@babel/preset-env": "^7.26.0",
+    "@babel/preset-react": "^7.25.9",
+    "@react-native/babel-preset": "^0.76.3",
+    "babel-plugin-module-resolver": "^5.0.2"
   }
 }

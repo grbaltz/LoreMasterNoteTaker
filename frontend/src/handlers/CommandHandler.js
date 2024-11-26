@@ -1,13 +1,16 @@
 import React, { useEffect, useState, useCallback } from "react";
+import { stripHtml } from '../utils/utils';
+
 
 const CommandHandler = ({ input, setInput, editor }) => {
     const [isBold, setIsBold] = useState(false)
 
     const checkForCommands = useCallback((value) => {
+        const text = stripHtml(value)
         const regex = /\/(\w+)/g;
         let match;
 
-        while ((match = regex.exec(value)) !== null) {
+        while ((match = regex.exec(text)) !== null) {
             handleCommand(match[1], match.index);
         }
     }, [input]);
@@ -34,10 +37,10 @@ const CommandHandler = ({ input, setInput, editor }) => {
                 let insert = String(Math.floor(Math.random() * 20) + 1);
                 replace(command, index, insert);
                 break;
-            // Add more commands as needed
+            case "1": case "2": case "3": case "4":
+                editor.format('header', Number(command))
+                break
             case "bold":
-                // console.log('triggering bold');
-
                 // Get the range index
                 const range = editor.getSelection()
                 editor.deleteText(range.index - command.length - 1, range.index)
@@ -50,41 +53,6 @@ const CommandHandler = ({ input, setInput, editor }) => {
                 );
         }
     }, [clear, editor, replace]);
-
-    useEffect(() => {
-        checkForCommands(input);
-    }, [input, checkForCommands]);
-
-    // Handles commands such as Ctrl+b and externally inputted commands
-    const handleKeyDown = (e) => {
-        const range = editor.getSelection()
-        const format = editor.getFormat(range.index, range.length)
-        console.log(format)
-
-        if (e.ctrlKey && e.key === 'b') {
-            e.preventDefault();
-            if (range.length === 0) {
-                editor.format('bold', !isBold)
-                setIsBold(!isBold)
-            } else {
-                // if (format['bold'] === undefined) {
-                //     editor.formatText(range.index, range.length, 'bold', true)
-                // } else {
-                //     editor.formatText(range.index, range.length, 'bold', false)
-                // }
-                console.log("bold is undefined: ", format['bold'] === undefined)
-                editor.formatText(range.index, range.length, { 'bold': format['bold'] !== undefined })
-            }
-        }
-    }
-
-    useEffect(() => {
-        // console.log("Noticed a keydown events")
-        document.addEventListener('keydown', handleKeyDown);
-        return () => {
-            document.removeEventListener('keydown', handleKeyDown);
-        }
-    }, [input, isBold])
 
     return null;
 };
