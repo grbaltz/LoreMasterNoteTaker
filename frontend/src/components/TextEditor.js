@@ -1,10 +1,12 @@
-import { React, useState } from 'react';
+import { React, useState, useEffect, useRef } from 'react';
 import ReactQuill from 'react-quill';
+import CommandHandler from '../handlers/CommandHandler';
 import 'react-quill/dist/quill.snow.css';
 import '../styles/QuillEditor.css';
 
 function TextEditor () {
     const [value, setValue] = useState('');
+    const edRef = useRef(null)
     const toolbarOptions = [
         ['bold', 'italic', 'underline', 'strike'],        // toggled buttons
         ['blockquote', 'code-block'],
@@ -25,20 +27,25 @@ function TextEditor () {
       
         ['clean']                                         // remove formatting button
       ];
-      
+
     const modules = {
         toolbar: toolbarOptions, 
     };
 
     return (
-        <ReactQuill 
-            theme="snow"
-            value={value}
-            onChange={setValue}
-            modules={modules}
-            placeholder="Type a message or roll a dice"
-            // placeholder=""
-        />
+        <>
+            <ReactQuill 
+                ref={edRef}
+                theme="snow"
+                value={value}
+                onChange={setValue}
+                modules={modules}
+                placeholder="Type a message or roll a dice"
+            />
+            {edRef.current &&
+                <CommandHandler input={value} setInput={setValue} editor={edRef.current.getEditor()} />
+            }
+        </>
     )
 }
 

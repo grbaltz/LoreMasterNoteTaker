@@ -30,7 +30,6 @@ const PageContent = () => {
   return (
     <>
       <TextEditor />
-      <CommandHandler input={input} setInput={setInput} />
       {error && <p className="error-message">{error}</p>} {/* Display error message */}
     </>
   );
