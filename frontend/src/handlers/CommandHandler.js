@@ -56,13 +56,10 @@ const CommandHandler = ({ input, setInput, editor }) => {
         }
     }, [clear, editor, replace]);
 
-<<<<<<< HEAD
-=======
     useEffect(() => {
         checkForCommands(input);
     }, [input, checkForCommands]);
 
->>>>>>> b79fc7cf (Attempting to implement pathing aliases)
     return null;
 };
 
