@@ -1,7 +1,6 @@
 import React, { useEffect, useState, useCallback } from "react";
 import { stripHtml } from '../utils/utils';
 
-
 const CommandHandler = ({ input, setInput, editor }) => {
     const [isBold, setIsBold] = useState(false)
 
@@ -37,9 +36,18 @@ const CommandHandler = ({ input, setInput, editor }) => {
                 let insert = String(Math.floor(Math.random() * 20) + 1);
                 replace(command, index, insert);
                 break;
+<<<<<<< HEAD
             case "1": case "2": case "3": case "4":
                 editor.format('header', Number(command))
                 break
+=======
+            case "1": case "2": case "3":
+                editor.format('header', Number(command))
+                break
+            case "4": case "normal":
+                editor.format('header', false)
+                break
+>>>>>>> b79fc7cf (Attempting to implement pathing aliases)
             case "bold":
                 // Get the range index
                 const range = editor.getSelection()
@@ -54,6 +62,13 @@ const CommandHandler = ({ input, setInput, editor }) => {
         }
     }, [clear, editor, replace]);
 
+<<<<<<< HEAD
+=======
+    useEffect(() => {
+        checkForCommands(input);
+    }, [input, checkForCommands]);
+
+>>>>>>> b79fc7cf (Attempting to implement pathing aliases)
     return null;
 };
 

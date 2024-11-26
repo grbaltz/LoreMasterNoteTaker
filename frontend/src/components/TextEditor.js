@@ -19,7 +19,7 @@ function TextEditor () {
         [{ 'direction': 'rtl' }],                         // text direction
       
         [{ 'size': ['small', false, 'large', 'huge'] }],  // custom dropdown
-        [{ 'header': [1, 2, 3, 4, 5, 6, false] }],
+        [{ 'header': [1, 2, 3, false,] }],
       
         [{ 'color': [] }, { 'background': [] }],          // dropdown with defaults from theme
         [{ 'font': [] }],
