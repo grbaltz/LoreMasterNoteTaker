@@ -92,62 +92,51 @@ const Page = () => {
     <div className="current-page-container">
       <div className="page-details-container">
         {/* Title */}
-      <h1>{pageData.title}</h1>
-      {/* Tags area */}
-      <div className='page-tags-container' >
-        <p>Tags: </p>
-        {/* If editing the tags, then display each one with 'x', etc., else list each tag with border */}
-        {editingTags ? (
-          <div 
-            className="editing-tags-container" 
-            onBlur={toggleEditTags}
-            tabIndex="0"
-          > 
-            {tags.map((tag, index) => (
-              <div className="page-tag-item" key={index}>
-                  <span className="text">{tag}</span>
-                  <span style={{ cursor: 'pointer' }}onClick={(e) => { e.stopPropagation(); handleTagDelete(index); }} className="close">
-                    &times;
-                  </span>
-              </div>
-            ))}
-              <input autoFocus className='page-tags-input' onKeyDown={handleTagKeyDown} placeholder={'Tag name'} />
-          </div>
-        ) : (
-          <div 
-            className="editing-tags-container"  
-            onMouseOver={(e) => e.currentTarget.style.background = '#444444'} 
-            onMouseLeave={(e) => e.currentTarget.style.background = 'transparent'}
-            onClick={(e) => toggleEditTags(e)}
-            placeholder="Click to add tabs"
-          >
-            {tags.length === 0 ? (<span style={{ opacity: '30%'}}>Click to add tags</span>) : '' }
-            {tags.map((tag, index) => (
-              <span 
-                className="page-tag"
-                key={index} 
-                onMouseOver={(e) => e.stopPropagation()}
-                onMouseLeave={(e) => e.stopPropagation()}
-              >
-                {tag}
-              </span>
-            ))}
-          </div>
-        )}
-      </div>
-      <p>ID: {id}</p>
-      {pageData.parent ? <p>Parent ID: {pageData.parent.title}</p> : <p>No parent</p>}
-      <p>Children:</p>
-      {
-        pageData.children && pageData.children.length > 0
-          ? pageData.children.map((child) => (
-              <p key={child._id}>Child: {child._id}</p>
-            ))
-          : ""
-      }
-      </div>
-      
+        <h1 style={{ textAlign: 'center' }}>{pageData.title}</h1>
 
+        {/* Tags area */}
+        <div className='page-tags-container' >
+          <p>Tags: </p>
+          {/* If editing the tags, then display each one with 'x', etc., else list each tag with border */}
+          {editingTags ? (
+            <div 
+              className="editing-tags-container" 
+              onBlur={toggleEditTags}
+              tabIndex="0"
+            > 
+              {tags.map((tag, index) => (
+                <div className="page-tag-item" key={index}>
+                    <span className="text">{tag}</span>
+                    <span style={{ cursor: 'pointer' }}onClick={(e) => { e.stopPropagation(); handleTagDelete(index); }} className="close">
+                      &times;
+                    </span>
+                </div>
+              ))}
+                <input autoFocus className='page-tags-input' onKeyDown={handleTagKeyDown} placeholder={'Tag name'} />
+            </div>
+          ) : (
+            <div 
+              className="editing-tags-container"  
+              onMouseOver={(e) => e.currentTarget.style.background = '#444444'} 
+              onMouseLeave={(e) => e.currentTarget.style.background = 'transparent'}
+              onClick={(e) => toggleEditTags(e)}
+              placeholder="Click to add tabs"
+            >
+              {tags.length === 0 ? (<span style={{ opacity: '30%'}}>Click to add tags</span>) : '' }
+              {tags.map((tag, index) => (
+                <span 
+                  className="page-tag"
+                  key={index} 
+                  onMouseOver={(e) => e.stopPropagation()}
+                  onMouseLeave={(e) => e.stopPropagation()}
+                >
+                  {tag}
+                </span>
+              ))}
+            </div>
+          )}
+        </div>
+      </div>
 
       {/* Page layout and content area */}
       <PageContent />

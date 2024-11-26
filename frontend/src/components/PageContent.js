@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useContext } from 'react';
+import React, { useState, useEffect, useContext, useRef } from 'react';
 import { useParams } from 'react-router-dom';
 import '../styles/PageContent.css';
 import CommandHandler from '../handlers/CommandHandler';
@@ -13,17 +13,6 @@ const PageContent = () => {
   const { pages, dispatch } = useContext(PagesContext);
   const [input, setInput] = useState('');
   const [error, setError] = useState(null);
-
-  const handleInputChange = async (e) => {
-    const newContent = e.target.value;
-    setInput(newContent);
-  
-    try {
-      await api.updatePageContent(id, newContent, dispatch);
-    } catch (err) {
-      setError(err.message);
-    }
-  };
 
   useEffect(() => {
     console.log("Loading page")

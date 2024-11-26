@@ -37,6 +37,7 @@ function TextEditor () {
             onChange={setValue}
             modules={modules}
             placeholder="Type a message or roll a dice"
+            // placeholder=""
         />
     )
 }

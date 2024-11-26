@@ -15,9 +15,10 @@
     transition: transform 0.3s ease;
     padding-bottom: 2.5px;
     margin-right: 5px;
+    transform: rotate(270deg);
     transform-origin: 50% 25%;
 }
 
 .arrow.open {
-    transform: rotate(90deg);
+    transform: rotate(360deg);
 }
