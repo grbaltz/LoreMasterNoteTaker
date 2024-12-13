@@ -6,7 +6,7 @@ import { PagesContext } from '../contexts/PagesContext'; // Update this path to 
 import * as api from '../api'; // Import the function
 
 // Components
-import TextEditor from './TextEditor';
+import Editor from './Editor';
 
 const PageContent = () => {
   const { id } = useParams();
@@ -29,7 +29,7 @@ const PageContent = () => {
 
   return (
     <>
-      <TextEditor />
+      <Editor />
       {error && <p className="error-message">{error}</p>} {/* Display error message */}
     </>
   );

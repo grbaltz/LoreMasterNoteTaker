@@ -21,6 +21,8 @@ const pageSchema = new Schema({
         type: String,
         default: '',
     }
-}, { timestamps: true });
+},
+{ collection: 'Pages' },
+{ timestamps: true });
 
 module.exports = mongoose.model('Page', pageSchema);
