@@ -1,51 +1,49 @@
-import React, { useState, useMemo } from 'react'
-import { createEditor } from 'slate'
-import { withHistory } from 'slate-history'
-import { Slate, Editable, withReact } from 'slate-react'
+import React, { useState, useMemo } from 'react';
+import { createEditor, Path, Node, Transforms } from 'slate';
+import { withHistory } from 'slate-history';
+import { Slate, Editable, withReact } from 'slate-react';
+import { useEditorConfig } from '../hooks/useEditorConfig';
 
-const Editor = () => {
-  const editor = useMemo(() => withReact(withHistory(createEditor())), [])
-  const [value, setValue] = useState([
-    {
-        type: 'paragraph',
-        children: [{ text: 'poop' }]
-    },
-    {
-        type: 'image',
-        src: '../images/brawl.png',
-        alt: 'brawlhalla lobby',
-        children: [{ text: '' }]
-    }
-  ])
+const withImage = (editor) => {
+  const { isVoid } = editor;
 
-  const Paragraph = ({ attributes, children}) => {
-    <p {...attributes}>{children}</p>
-  }
+  editor.isVoid = (element) =>
+    element.type === 'image' ? true : isVoid(element);
 
-  const Image = ({ attributes, element, children }) => {
-    <div {...attributes}>
-        <div contentEditable={false}>
-            <img src={element.src} alt={element.alt} />
-        </div>
-        {children}
-    </div>
-  }
+  return editor;
+}
 
-  const renderElement = (props) => {
-    switch(props.element.type) {
-        case 'image':
-            return <Image {...props} />
-        default:
-            return <Paragraph {...props} />
+export default function Editor({ document, onChange }) {
+  const editor = useMemo(() => withReact(withHistory(withImage(createEditor()))), []);
+  const { renderElement } = useEditorConfig(editor);
+
+  const { isVoid, insertBreak } = editor;
+
+  editor.insertBreak = (...args) => {
+    const parentPath = Path.parent(editor.selection.focus.path);
+    const parentNode = Node.get(editor, parentPath);
+
+    if (isVoid(parentNode)) {
+      const nextPath = Path.next(parentPath);
+      Transforms.insertNodes(
+        editor,
+        {
+          type: 'paragraph',
+          children: [{ text: ''}]
+        },
+        {
+          at: nextPath,
+          select: true
+        }
+      );
+    } else {
+      insertBreak(...args);
     }
   }
 
   return (
-    <Slate editor={editor} initialValue={value} onChange={newValue => setValue(newValue)}>
-      <Editor renderElement={renderElement} />
-      {/* <Editable /> */}
+    <Slate editor={editor} value={document} onChange={onChange}>
+      <Editable renderElement={renderElement} />
     </Slate>
   )
 }
-
-export default Editor
