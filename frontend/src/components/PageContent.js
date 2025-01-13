@@ -100,7 +100,7 @@ const PageContent = () => {
 
   return (
     <>
-      <Slate editor={editor} initialValue={initialValue}>
+      <Slate style={{ backgroundColor: 'red' }} editor={editor} initialValue={initialValue}>
         <Editable 
           renderElement={renderElement} 
           renderLeaf={renderLeaf}
